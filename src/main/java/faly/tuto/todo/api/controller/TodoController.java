@@ -5,6 +5,7 @@ import faly.tuto.todo.api.model.Todo;
 import faly.tuto.todo.api.repository.ITodoRepository;
 import faly.tuto.todo.api.exception.TodoNotFoundException;
 import faly.tuto.todo.api.validator.ITodoValidator;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,13 @@ public class TodoController {
     @Autowired
     private ITodoValidator validator;
 
+    @Operation(summary = "Get all the todos in the database.")
     @GetMapping
     public List<Todo> getAll() {
         return repository.findAll();
     }
 
+    @Operation(summary = "Get one toto with the specified id in the database.")
     @GetMapping("{id}")
     public Todo getById(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(() -> new TodoNotFoundException(id));
@@ -53,6 +56,7 @@ public class TodoController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
+        repository.findById(id).orElseThrow(() -> new TodoNotFoundException(id));
         repository.deleteById(id);
     }
 }
