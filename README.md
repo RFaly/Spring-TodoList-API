@@ -1,1 +1,2 @@
-# Spring-TodoList-API
+# Start the server with
+./mvnw spring-boot:run
